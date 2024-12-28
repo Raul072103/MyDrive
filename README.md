@@ -19,14 +19,14 @@
 
 3. Administrative:
     - [ ] GitHub workflows
-    - [ ] Air (hot live reloading)
+    - [x] Air (hot live reloading)
     - [ ] Vite
     - [X] Folder structure
     - [ ] DB setup
     - [ ] Redis setup
     - [ ] Docker setup
     - [X] Makefile 
-    - [ ] Env file
+    - [X] Env file
     - [ ] Create working basic API structure
     - [ ] Create working basic VITE
 
