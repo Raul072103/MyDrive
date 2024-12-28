@@ -21,12 +21,14 @@
     - [ ] GitHub workflows
     - [ ] Air (hot live reloading)
     - [ ] Vite
-    - [ ] Folder structure
+    - [X] Folder structure
     - [ ] DB setup
     - [ ] Redis setup
     - [ ] Docker setup
-    - [ ] Makefile 
+    - [X] Makefile 
     - [ ] Env file
+    - [ ] Create working basic API structure
+    - [ ] Create working basic VITE
 
 ### 2. Project GitHub administrative things
    - [ ] Add project description
