@@ -6,6 +6,8 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
+const version = "0.0.0"
+
 func main() {
 	s := "gopher"
 	fmt.Println("Hello and welcome, %s!", s)
