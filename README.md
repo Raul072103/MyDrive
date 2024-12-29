@@ -20,7 +20,7 @@
 3. Administrative:
     - [ ] GitHub workflows
     - [x] Air (hot live reloading)
-    - [ ] Vite
+    - [X] Vite
     - [X] Folder structure
     - [X] DB setup
     - [X] Docker setup
