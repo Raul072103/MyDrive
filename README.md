@@ -22,13 +22,14 @@
     - [x] Air (hot live reloading)
     - [ ] Vite
     - [X] Folder structure
-    - [ ] DB setup
+    - [X] DB setup
     - [ ] Redis setup
     - [ ] Docker setup
     - [X] Makefile 
     - [X] Env file
     - [ ] Create working basic API structure
     - [ ] Create working basic VITE
+    - [X] Create swagger documentation
 
 ### 2. Project GitHub administrative things
    - [ ] Add project description

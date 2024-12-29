@@ -4,9 +4,11 @@ import (
 	"MyDrive/docs"
 	"context"
 	"errors"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 	"net/http"
 	"os"
@@ -63,6 +65,10 @@ func (app *application) mount() *chi.Mux {
 	mux.Route("/v1", func(r chi.Router) {
 		// Operations
 		r.Get("/health", app.healthCheckHandler)
+
+		// Swagger
+		docsUrl := fmt.Sprintf("%s/swagger/doc.json", app.config.addr)
+		r.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL(docsUrl)))
 	})
 
 	return mux
