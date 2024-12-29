@@ -19,16 +19,15 @@
 
 3. Administrative:
     - [ ] GitHub workflows
-    - [ ] Air (hot live reloading)
-    - [ ] Vite
+    - [x] Air (hot live reloading)
+    - [X] Vite
     - [X] Folder structure
-    - [ ] DB setup
-    - [ ] Redis setup
-    - [ ] Docker setup
+    - [X] DB setup
+    - [X] Docker setup
     - [X] Makefile 
-    - [ ] Env file
-    - [ ] Create working basic API structure
-    - [ ] Create working basic VITE
+    - [X] Env file
+    - [X] Create working basic API structure
+    - [X] Create swagger documentation
 
 ### 2. Project GitHub administrative things
    - [ ] Add project description
