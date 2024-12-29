@@ -1,0 +1,24 @@
+info:
+  contact: {}
+paths:
+  /health/:
+    get:
+      consumes:
+      - application/json
+      description: Checks the health of the server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Internal Server Error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Checks the health of the server
+      tags:
+      - health
+swagger: "2.0"
