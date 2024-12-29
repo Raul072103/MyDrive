@@ -39,8 +39,9 @@ func main() {
 			maxIdleConns: env.GetInt("DB_MAX_IDLE_CONNS", 30),
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
 		},
-		env:    env.GetString("DEV", "development"),
-		apiURL: env.GetString("EXTERNAL_URL", "localhost:8080"),
+		env:         env.GetString("DEV", "development"),
+		apiURL:      env.GetString("EXTERNAL_URL", "localhost:8080"),
+		frontendURL: env.GetString("FRONTEND_URL", "http://localhost:5174"),
 	}
 
 	// Logger

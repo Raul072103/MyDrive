@@ -23,12 +23,10 @@
     - [ ] Vite
     - [X] Folder structure
     - [X] DB setup
-    - [ ] Redis setup
-    - [ ] Docker setup
+    - [X] Docker setup
     - [X] Makefile 
     - [X] Env file
-    - [ ] Create working basic API structure
-    - [ ] Create working basic VITE
+    - [X] Create working basic API structure
     - [X] Create swagger documentation
 
 ### 2. Project GitHub administrative things
