@@ -22,5 +22,4 @@ go.work.sum
 
 .idea
 testfiles/
-docs/
 bin/
