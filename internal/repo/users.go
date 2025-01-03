@@ -163,16 +163,16 @@ func (u *userRepo) delete(ctx context.Context, tx *sql.Tx, userID int64) error {
 	return err
 }
 
-func (u *userRepo) update(ctx context.Context, tx *sql.Tx, user *User) error {
-	query := `
-		UPDATE users
-		SET username = $2, email = $3
-		WHERE id = $1
-	`
-
-	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
-	defer cancel()
-
-	_, err := tx.ExecContext(ctx, query, user.ID, user.Username, user.Email)
-	return err
-}
+//func (u *userRepo) update(ctx context.Context, tx *sql.Tx, user *User) error {
+//	query := `
+//		UPDATE users
+//		SET username = $2, email = $3
+//		WHERE id = $1
+//	`
+//
+//	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+//	defer cancel()
+//
+//	_, err := tx.ExecContext(ctx, query, user.ID, user.Username, user.Email)
+//	return err
+//}

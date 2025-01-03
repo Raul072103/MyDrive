@@ -116,7 +116,3 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-func (app *application) createTokenHandler(w http.ResponseWriter, r *http.Request) {
-
-}
