@@ -1,25 +1,29 @@
 package main
 
 import (
-	"MyDrive/docs"
 	"context"
 	"errors"
 	"fmt"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"github.com/go-chi/cors"
-	httpSwagger "github.com/swaggo/http-swagger"
-	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
+	"go.uber.org/zap"
+
+	"MyDrive/docs"
+	"MyDrive/internal/auth"
 )
 
 type application struct {
-	config config
-	logger *zap.SugaredLogger
+	config        config
+	logger        *zap.SugaredLogger
+	authenticator auth.Authenticator
 }
 
 type config struct {
@@ -28,6 +32,7 @@ type config struct {
 	db          dbConfig
 	apiURL      string
 	frontendURL string
+	auth        authConfig
 }
 
 type dbConfig struct {
@@ -37,9 +42,14 @@ type dbConfig struct {
 	maxIdleTime  string
 }
 
-type basicConfig struct {
-	user string
-	pass string
+type authConfig struct {
+	token tokenConfig
+}
+
+type tokenConfig struct {
+	secret string
+	exp    time.Duration
+	iss    string
 }
 
 func (app *application) mount() *chi.Mux {

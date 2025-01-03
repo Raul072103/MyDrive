@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MyDrive/internal/auth"
 	"MyDrive/internal/db"
 	"MyDrive/internal/env"
 	"database/sql"
@@ -9,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 	"runtime"
+	"time"
 )
 
 const version = "0.0.0"
@@ -42,6 +44,11 @@ func main() {
 		env:         env.GetString("DEV", "development"),
 		apiURL:      env.GetString("EXTERNAL_URL", "localhost:8080"),
 		frontendURL: env.GetString("FRONTEND_URL", "http://localhost:5174"),
+		auth: authConfig{tokenConfig{
+			secret: env.GetString("AUTH_TOKEN_SECRET", "secret_example"),
+			exp:    time.Hour * 24 * 3,
+			iss:    "mydrive",
+		}},
 	}
 
 	// Logger
@@ -71,9 +78,16 @@ func main() {
 
 	logger.Info("database connection pool established")
 
+	// Authenticator
+	jwtAuthenticator := auth.NewJWTAuthenticator(
+		cfg.auth.token.secret,
+		cfg.auth.token.iss,
+		cfg.auth.token.iss)
+
 	app := &application{
-		config: cfg,
-		logger: logger,
+		config:        cfg,
+		logger:        logger,
+		authenticator: jwtAuthenticator,
 	}
 
 	// Metrics collected
