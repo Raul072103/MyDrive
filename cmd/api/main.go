@@ -4,6 +4,7 @@ import (
 	"MyDrive/internal/auth"
 	"MyDrive/internal/db"
 	"MyDrive/internal/env"
+	repository "MyDrive/internal/repo"
 	"database/sql"
 	"expvar"
 	_ "github.com/joho/godotenv/autoload"
@@ -52,7 +53,7 @@ func main() {
 	}
 
 	// Logger
-	logger := zap.Must(zap.NewProduction()).Sugar()
+	logger := zap.Must(zap.NewDevelopment()).Sugar()
 	defer func(logger *zap.SugaredLogger) {
 		if err := logger.Sync(); err != nil {
 			logger.Fatalf("failed cleaning up zap logger: %v", err)
@@ -78,6 +79,9 @@ func main() {
 
 	logger.Info("database connection pool established")
 
+	// Repository
+	repo := repository.NewRepo(postgresDB)
+
 	// Authenticator
 	jwtAuthenticator := auth.NewJWTAuthenticator(
 		cfg.auth.token.secret,
@@ -86,6 +90,7 @@ func main() {
 
 	app := &application{
 		config:        cfg,
+		repo:          repo,
 		logger:        logger,
 		authenticator: jwtAuthenticator,
 	}

@@ -19,7 +19,7 @@ seed:
 
 .PHONY: gen-docs
 gen-docs:
-	@swag init --generalInfo api/main.go --dir cmd,internal/store,internal/db,internal/env && swag fmt
+	@swag init --generalInfo api/main.go --dir cmd,internal/repo,internal/db,internal/env && swag fmt
 
 .PHONY: test
 test:

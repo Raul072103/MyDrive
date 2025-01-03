@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MyDrive/internal/repo"
 	"context"
 	"errors"
 	"fmt"
@@ -22,6 +23,7 @@ import (
 
 type application struct {
 	config        config
+	repo          repo.Repository
 	logger        *zap.SugaredLogger
 	authenticator auth.Authenticator
 }
