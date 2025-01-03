@@ -1,6 +1,5 @@
 include .env
 MIGRATIONS_PATH = ./cmd/migrate/migrations
-DATABASE_PATH = ""
 
 .PHONY: migrate-create
 migration:
@@ -8,11 +7,11 @@ migration:
 
 .PHONY: migrate-up
 migrate-up:
-	@migrate -path $(MIGRATIONS_PATH) -database $(DATABASE_PATH) up
+	@migrate -path $(MIGRATIONS_PATH) -database $(DB_ADDR) up
 
 .PHONY: migrate-down
 migrate-down:
-	@migrate -path $(MIGRATIONS_PATH) -database $(DATABASE_PATH) down $(word 2, $(MAKECMDGOALS))
+	@migrate -path $(MIGRATIONS_PATH) -database $(DB_ADDR) down $(word 2, $(MAKECMDGOALS))
 
 .PHONY: seed
 seed:

@@ -80,6 +80,11 @@ func (app *application) mount() *chi.Mux {
 		// Swagger
 		docsUrl := fmt.Sprintf("%s/swagger/doc.json", app.config.addr)
 		r.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL(docsUrl)))
+
+		// Public routes
+		//r.Route("/authentication", func(r chi.Router) {
+		//	r.Post("/token", app.createTokenHandler)
+		//})
 	})
 
 	return mux
