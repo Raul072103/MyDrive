@@ -76,16 +76,15 @@ func (app *application) mount() *chi.Mux {
 	mux.Use(middleware.Timeout(60 * time.Second))
 
 	mux.Route("/v1", func(r chi.Router) {
-		// Operations
-		r.Get("/health", app.healthCheckHandler)
-
 		// Swagger
 		docsUrl := fmt.Sprintf("%s/swagger/doc.json", app.config.addr)
 		r.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL(docsUrl)))
 
+		// Operations
+		r.With(app.AuthTokenMiddleware).Get("/health/", app.healthCheckHandler)
+
 		// Public routes - Authentication
 		r.Route("/auth", func(r chi.Router) {
-			r.Post("/token", app.createTokenHandler)
 			r.Post("/login", app.loginHandler)
 		})
 	})

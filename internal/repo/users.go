@@ -77,8 +77,9 @@ func (u *userRepo) Create(ctx context.Context, tx *sql.Tx, user *User) error {
 
 func (u *userRepo) GetByID(ctx context.Context, userID int64) (*User, error) {
 	query := `
-		SELECT users.id, username, email, password, created_at
+		SELECT id, username, email, password, created_at
 		FROM users 
+		WHERE id = $1
 	`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
