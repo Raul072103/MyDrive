@@ -8,17 +8,18 @@
 
 1. Backend:
 
-   - [ ] Authentication
+   - [X] Authentication
+   - [X] JWT
    - [ ] Authorization
    
 2. Frontend:
 
-   - [ ] Login UI
+   - [X] Login UI
    - [ ] Registration UI
    - [ ] Drive UI
 
 3. Administrative:
-    - [ ] GitHub workflows
+    - [X] GitHub workflows
     - [x] Air (hot live reloading)
     - [X] Vite
     - [X] Folder structure

@@ -1,6 +1,60 @@
+basePath: /v1
+definitions:
+  main.SignedInUser:
+    properties:
+      email:
+        type: string
+      expires_in:
+        type: integer
+      token:
+        type: string
+      token_type:
+        type: string
+      username:
+        type: string
+    type: object
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for MyDrive.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: MyDrive API
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Signs in a user
+      parameters:
+      - description: Basic authentication (Basic <base64-encoded-credentials>)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User successfully  logged in
+          schema:
+            $ref: '#/definitions/main.SignedInUser'
+        "400":
+          description: Invalid request
+          schema: {}
+        "401":
+          description: Unauthorized
+          schema: {}
+        "500":
+          description: Internal server error
+          schema: {}
+      summary: Signs in a user
+      tags:
+      - authentication
   /health/:
     get:
       consumes:
@@ -21,4 +75,9 @@ paths:
       summary: Checks the health of the server
       tags:
       - health
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

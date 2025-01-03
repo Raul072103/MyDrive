@@ -1,14 +1,17 @@
 package main
 
 import (
+	"MyDrive/internal/auth"
 	"MyDrive/internal/db"
 	"MyDrive/internal/env"
+	repository "MyDrive/internal/repo"
 	"database/sql"
 	"expvar"
 	_ "github.com/joho/godotenv/autoload"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 	"runtime"
+	"time"
 )
 
 const version = "0.0.0"
@@ -42,10 +45,15 @@ func main() {
 		env:         env.GetString("DEV", "development"),
 		apiURL:      env.GetString("EXTERNAL_URL", "localhost:8080"),
 		frontendURL: env.GetString("FRONTEND_URL", "http://localhost:5174"),
+		auth: authConfig{tokenConfig{
+			secret: env.GetString("AUTH_TOKEN_SECRET", "secret_example"),
+			exp:    time.Hour * 24 * 3,
+			iss:    "mydrive",
+		}},
 	}
 
 	// Logger
-	logger := zap.Must(zap.NewProduction()).Sugar()
+	logger := zap.Must(zap.NewDevelopment()).Sugar()
 	defer func(logger *zap.SugaredLogger) {
 		if err := logger.Sync(); err != nil {
 			logger.Fatalf("failed cleaning up zap logger: %v", err)
@@ -71,9 +79,20 @@ func main() {
 
 	logger.Info("database connection pool established")
 
+	// Repository
+	repo := repository.NewRepo(postgresDB)
+
+	// Authenticator
+	jwtAuthenticator := auth.NewJWTAuthenticator(
+		cfg.auth.token.secret,
+		cfg.auth.token.iss,
+		cfg.auth.token.iss)
+
 	app := &application{
-		config: cfg,
-		logger: logger,
+		config:        cfg,
+		repo:          repo,
+		logger:        logger,
+		authenticator: jwtAuthenticator,
 	}
 
 	// Metrics collected
