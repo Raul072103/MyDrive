@@ -12,11 +12,21 @@
    - [X] JWT
    - [ ] Authorization
    
+   "My Files" Feature:
+   - [ ] New endpoints for file management
+   - [ ] File upload
+   - [ ] File download
+
 2. Frontend:
 
    - [X] Login UI
    - [ ] Registration UI
    - [ ] Drive UI
+
+   "My Files" Feature:
+   - Page for "My Files" 
+   - File Navigation
+   - Distinction between file types
 
 3. Administrative:
     - [X] GitHub workflows

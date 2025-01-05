@@ -87,6 +87,16 @@ func (app *application) mount() *chi.Mux {
 		r.Route("/auth", func(r chi.Router) {
 			r.Post("/login", app.loginHandler)
 		})
+
+		// Private routes - User
+		r.Group(func(r chi.Router) {
+			r.Use(app.AuthTokenMiddleware)
+
+			r.Route("/myfiles", func(r chi.Router) {
+				r.Post("/upload", app.uploadFileHandler)
+				r.Get("/download", app.downloadFileHandler)
+			})
+		})
 	})
 
 	return mux
