@@ -17,8 +17,7 @@ function App() {
                 headers: {
                     'Authorization': `Basic ${credentials}`,
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password }) // You can send other data in the body if necessary
+                }
             });
 
             if (!response.ok) {
