@@ -35,6 +35,11 @@ type config struct {
 	apiURL      string
 	frontendURL string
 	auth        authConfig
+	drive       driveConfig
+}
+
+type driveConfig struct {
+	root string
 }
 
 type dbConfig struct {
@@ -90,7 +95,7 @@ func (app *application) mount() *chi.Mux {
 
 		// Private routes - User
 		r.Group(func(r chi.Router) {
-			r.Use(app.AuthTokenMiddleware)
+			// r.Use(app.AuthTokenMiddleware)
 
 			r.Route("/myfiles", func(r chi.Router) {
 				r.Post("/upload", app.uploadFileHandler)

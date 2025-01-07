@@ -13,12 +13,17 @@ func New() *FileRepo {
 	return &FileRepo{}
 }
 
+var (
+	ErrFileAlreadyExists = errors.New("file already exists")
+	ErrFileNotFound      = errors.New("file not found")
+)
+
 // CreateFile creates a file at the specified path.
 // It doesn't create a new file if there is already an existing one.
 func (fr *FileRepo) CreateFile(path string) (err error) {
 	fileExists, err := utils.FileExists(path)
 	if fileExists {
-		return errors.New("file already exists")
+		return ErrFileAlreadyExists
 	}
 
 	file, err := os.Create(path)
@@ -43,7 +48,7 @@ func (fr *FileRepo) DeleteFile(path string) (err error) {
 		err = os.Remove(path)
 		return err
 	} else {
-		return errors.New("tried to delete a file that doesn't exist")
+		return ErrFileNotFound
 	}
 }
 
@@ -81,6 +86,6 @@ func (fr *FileRepo) ReadFile(path string) ([]byte, error) {
 
 		return data, nil
 	} else {
-		return nil, errors.New("tried to read from a file that doesn't exist")
+		return nil, ErrFileNotFound
 	}
 }

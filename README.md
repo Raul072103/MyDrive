@@ -14,8 +14,8 @@
    
    "My Files" Feature:
    - [ ] New endpoints for file management
-   - [ ] File upload
-   - [ ] File download
+   - [X] File upload
+   - [X] File download
 
 2. Frontend:
 

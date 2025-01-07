@@ -14,6 +14,18 @@ func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Reques
 	_ = writeJSONError(w, http.StatusBadRequest, err.Error())
 }
 
+func (app *application) fileNotFoundResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logger.Errorw("file not found response", "method", r.Method, "path", r.URL.Path, "error", err.Error())
+
+	_ = writeJSONError(w, http.StatusNotFound, "file not found")
+}
+
+func (app *application) fileTooLargeResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logger.Errorw("file size exceeds accepted limits", "method", r.Method, "path", r.URL.Path, "error", err.Error())
+
+	_ = writeJSONError(w, http.StatusRequestEntityTooLarge, "file size too large")
+}
+
 //func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request, err error) {
 //	app.logger.Errorw("not found response", "method", r.Method, "path", r.URL.Path, "error", err.Error())
 //

@@ -1,5 +1,12 @@
 basePath: /v1
 definitions:
+  main.DownloadFileRequestBody:
+    properties:
+      name:
+        type: string
+      path:
+        type: string
+    type: object
   main.SignedInUser:
     properties:
       email:
@@ -11,6 +18,15 @@ definitions:
       token_type:
         type: string
       username:
+        type: string
+    type: object
+  main.UploadFileRequestBody:
+    properties:
+      file_size:
+        type: integer
+      name:
+        type: string
+      path:
         type: string
     type: object
 info:
@@ -75,6 +91,68 @@ paths:
       summary: Checks the health of the server
       tags:
       - health
+  /mydrive/myfiles:
+    get:
+      consumes:
+      - application/json
+      description: Downloads a file at the specified path.
+      parameters:
+      - description: Metadata about the file to download
+        in: body
+        name: downloadFileRequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/main.DownloadFileRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Downloaded file successfully!
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema: {}
+        "404":
+          description: File not found/Internal server error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Downloads a file at the specified path.
+      tags:
+      - myfiles
+    post:
+      consumes:
+      - application/json
+      description: Uploads a file at the specified path.
+      parameters:
+      - description: Metadata about the file to download
+        in: body
+        name: uploadFileRequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/main.UploadFileRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Uploaded file successfully!
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema: {}
+        "404":
+          description: Internal Server Error
+          schema: {}
+        "413":
+          description: File too large
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Uploads a file at the specified path.
+      tags:
+      - myfiles
 securityDefinitions:
   ApiKeyAuth:
     in: header

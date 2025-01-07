@@ -24,3 +24,5 @@ go.work.sum
 testfiles/
 bin/
 testfiles/
+venv/
+docs/
