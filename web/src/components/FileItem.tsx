@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import "@styles/global.css";
 
+import {File, getIconClass} from "../types/File.tsx";
+
 interface FileItemProps {
-    name: string;
-    iconClass: string;
-    path: string;
+    file: File; // Define the expected type of the prop
 }
 
-const FileItem: React.FC<FileItemProps> = ({ name, iconClass, path }) => {
+const FileItem: React.FC<FileItemProps> = ({file}) => {
     const [fileData, setFileData] = useState<Blob | null>(null);
 
     const handleClick = async () => {
         console.log("CLICKED ME!")
         try {
-            const response = await fetch(`http://localhost:8080/v1/myfiles/download/${path}`, {
+            const response = await fetch(`http://localhost:8080/v1/myfiles/download/${file.path}`, {
                 method: 'GET',
             });
 
@@ -30,12 +30,12 @@ const FileItem: React.FC<FileItemProps> = ({ name, iconClass, path }) => {
 
     return (
         <div className="file-item" onClick={handleClick}>
-            <i className={iconClass}></i>
-            <p>{name}</p>
+            <i className={getIconClass()}></i>
+            <p>{file.name}</p>
 
             {fileData && (
                 <div className="file-data">
-                    <a href={URL.createObjectURL(fileData)} download={name}>Download</a>
+                    <a href={URL.createObjectURL(fileData)} download={file.name}>Download</a>
                 </div>
             )}
         </div>

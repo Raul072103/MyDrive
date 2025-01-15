@@ -28,7 +28,6 @@ const maxFileSize = 10 << 20
 // @Security		ApiKeyAuth
 // @Router			/mydrive/myfiles [get]
 func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Request) {
-
 	filePathURL := chi.URLParam(r, "path")
 	if filePathURL == "" {
 		app.badRequestResponse(w, r, errors.New("missing path"))
@@ -158,6 +157,47 @@ func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request
 
 	// Return a success message
 	if err := jsonResponse(w, http.StatusOK, "File uploaded successfully!"); err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+}
+
+// listFilesHandler godoc
+//
+//	@Summary		Uploads a file at the specified path.
+//	@Description	Uploads a file at the specified path.
+//	@Tags			myfiles
+//	@Accept			json
+//	@Produce		json
+//
+// @Param		path	path		string	true	"File path"
+// @Success		200						{string}	string					"Retrieved the list of files successfully!"
+// @Failure		400						{object}	error					"Bad request"
+// @Failure		404						{object}	error					"Internal Server Error"
+// @Security		ApiKeyAuth
+// @Router			/mydrive/myfiles [post]
+func (app *application) listFilesHandler(w http.ResponseWriter, r *http.Request) {
+	relativePath := chi.URLParam(r, "path")
+
+	if relativePath == "" {
+		app.badRequestResponse(w, r, errors.New("missing path"))
+		return
+	}
+
+	if relativePath == "root" {
+		relativePath = ""
+	}
+
+	filePath := app.config.drive.root + relativePath
+	// Get the list of files
+	files, err := app.repo.FilesSystem.ListFiles(filePath)
+	if err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+
+	// Return the list of files
+	if err := jsonResponse(w, http.StatusOK, files); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}

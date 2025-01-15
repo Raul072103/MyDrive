@@ -100,6 +100,7 @@ func (app *application) mount() *chi.Mux {
 			r.Route("/myfiles", func(r chi.Router) {
 				r.Post("/upload", app.uploadFileHandler)
 				r.Get("/download/{path}", app.downloadFileHandler)
+				r.Get("/listfiles/{path}", app.listFilesHandler)
 			})
 		})
 	})

@@ -18,6 +18,12 @@ func New() *FileRepo {
 	return &FileRepo{}
 }
 
+type File struct {
+	Name  string `json:"name"`
+	IsDir bool   `json:"is_dir"`
+	Size  int64  `json:"size"`
+}
+
 // CreateFile creates a file at the specified path.
 // It doesn't create a new file if there is already an existing one.
 func (fr *FileRepo) CreateFile(path string) (err error) {
@@ -90,15 +96,24 @@ func (fr *FileRepo) ReadFile(path string) ([]byte, error) {
 	}
 }
 
-func (fr *FileRepo) ListFiles(path string) ([]string, error) {
+func (fr *FileRepo) ListFiles(path string) ([]File, error) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
 
-	var fileNames []string
+	var fileNames []File
 	for _, file := range files {
-		fileNames = append(fileNames, file.Name())
+		fileInfo, err := file.Info()
+		if err != nil {
+			return nil, err
+		}
+
+		fileNames = append(fileNames, File{
+			Name:  file.Name(),
+			IsDir: file.IsDir(),
+			Size:  fileInfo.Size(),
+		})
 	}
 
 	return fileNames, nil

@@ -38,6 +38,10 @@ func (u *InMemoryFileSystemMock) ReadFile(path string) ([]byte, error) {
 	return u.fileMap[path], nil
 }
 
+func (u *InMemoryFileSystemMock) ListFiles(path string) ([]File, error) {
+	return nil, nil
+}
+
 type OnDiskFileSystemMock struct {
 }
 
@@ -54,6 +58,10 @@ func (u *OnDiskFileSystemMock) UpdateFile(path string, content []byte, updateAt 
 }
 
 func (u *OnDiskFileSystemMock) ReadFile(path string) ([]byte, error) {
+	return nil, nil
+}
+
+func (u *OnDiskFileSystemMock) ListFiles(path string) ([]File, error) {
 	return nil, nil
 }
 

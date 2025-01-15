@@ -33,7 +33,7 @@ type FileSystem interface {
 	DeleteFile(path string) (err error)
 	UpdateFile(path string, content []byte, updateAt int64) (err error)
 	ReadFile(path string) ([]byte, error)
-	ListFiles(path string) ([]string, error)
+	ListFiles(path string) ([]filesystem.File, error)
 }
 
 func NewRepo(db *sql.DB) Repository {
