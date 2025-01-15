@@ -6,17 +6,17 @@ import (
 	"os"
 )
 
+var (
+	ErrFileAlreadyExists = errors.New("file already exists")
+	ErrFileNotFound      = errors.New("file not found")
+)
+
 type FileRepo struct {
 }
 
 func New() *FileRepo {
 	return &FileRepo{}
 }
-
-var (
-	ErrFileAlreadyExists = errors.New("file already exists")
-	ErrFileNotFound      = errors.New("file not found")
-)
 
 // CreateFile creates a file at the specified path.
 // It doesn't create a new file if there is already an existing one.
@@ -88,4 +88,18 @@ func (fr *FileRepo) ReadFile(path string) ([]byte, error) {
 	} else {
 		return nil, ErrFileNotFound
 	}
+}
+
+func (fr *FileRepo) ListFiles(path string) ([]string, error) {
+	files, err := os.ReadDir(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var fileNames []string
+	for _, file := range files {
+		fileNames = append(fileNames, file.Name())
+	}
+
+	return fileNames, nil
 }

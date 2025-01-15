@@ -24,3 +24,7 @@ gen-docs:
 .PHONY: test
 test:
 	@go test -v ./...
+
+.PHONY: run-vite
+run-vite:
+	@npm --prefix ./web run build && npm --prefix ./web run dev

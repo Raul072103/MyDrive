@@ -3,16 +3,12 @@ package main
 import (
 	"MyDrive/internal/utils"
 	"errors"
+	"github.com/go-chi/chi/v5"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
 )
-
-type DownloadFileRequestBody struct {
-	Path string `json:"path"`
-	Name string `json:"name"`
-}
 
 const maxFileSize = 10 << 20
 
@@ -24,21 +20,22 @@ const maxFileSize = 10 << 20
 //	@Accept			json
 //	@Produce		json
 //
-//	@Param			downloadFileRequestBody	body		DownloadFileRequestBody	true	"Metadata about the file to download"
+//	@Param			path	path		path	true	"path of the file"
 //
-//	@Success		200						{string}	string					"Downloaded file successfully!"
-//	@Failure		400						{object}	error					"Bad request"
-//	@Failure		404						{object}	error					"File not found/Internal server error"
-//	@Security		ApiKeyAuth
-//	@Router			/mydrive/myfiles [get]
+// @Success		200						{string}	string					"Downloaded file successfully!"
+// @Failure		400						{object}	error					"Bad request"
+// @Failure		404						{object}	error					"File not found/Internal server error"
+// @Security		ApiKeyAuth
+// @Router			/mydrive/myfiles [get]
 func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Request) {
-	var downloadRequest DownloadFileRequestBody
-	if err := readJSON(w, r, &downloadRequest); err != nil {
-		app.badRequestResponse(w, r, err)
+
+	filePathURL := chi.URLParam(r, "path")
+	if filePathURL == "" {
+		app.badRequestResponse(w, r, errors.New("missing path"))
 		return
 	}
 
-	filePath := app.config.drive.root + downloadRequest.Path
+	filePath := app.config.drive.root + filePathURL
 
 	app.logger.Infof("Downloading file at path: %s", filePath)
 
@@ -66,11 +63,11 @@ func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Reque
 
 	// write header
 	w.Header().Set("Content-Type", "application/octet-stream")
-	w.Header().Set("Content-Disposition", "attachment; filename:"+downloadRequest.Name)
+	w.Header().Set("Content-Disposition", "attachment; filename:"+filePath)
 	w.Header().Set("Content-Length", strconv.FormatInt(fileStats.Size(), 10))
 
 	// send file through SFT protocol
-	http.ServeContent(w, r, downloadRequest.Name, fileStats.ModTime(), file)
+	http.ServeContent(w, r, filePath, fileStats.ModTime(), file)
 }
 
 // uploadFileHandler godoc

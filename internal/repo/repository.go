@@ -17,18 +17,23 @@ var (
 )
 
 type Repository struct {
-	Users interface {
-		GetByID(ctx context.Context, userID int64) (*User, error)
-		GetByEmail(ctx context.Context, email string) (*User, error)
-		Create(ctx context.Context, tx *sql.Tx, user *User) error
-		Delete(ctx context.Context, userID int64) error
-	}
-	FilesSystem interface {
-		CreateFile(path string) (err error)
-		DeleteFile(path string) (err error)
-		UpdateFile(path string, content []byte, updateAt int64) (err error)
-		ReadFile(path string) ([]byte, error)
-	}
+	Users       Users
+	FilesSystem FileSystem
+}
+
+type Users interface {
+	GetByID(ctx context.Context, userID int64) (*User, error)
+	GetByEmail(ctx context.Context, email string) (*User, error)
+	Create(ctx context.Context, tx *sql.Tx, user *User) error
+	Delete(ctx context.Context, userID int64) error
+}
+
+type FileSystem interface {
+	CreateFile(path string) (err error)
+	DeleteFile(path string) (err error)
+	UpdateFile(path string, content []byte, updateAt int64) (err error)
+	ReadFile(path string) ([]byte, error)
+	ListFiles(path string) ([]string, error)
 }
 
 func NewRepo(db *sql.DB) Repository {
