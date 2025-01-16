@@ -1,5 +1,5 @@
 function StarredPage() {
-    return <div>Starred Page</div>
+    return <div>No elements starred!</div>
 }
 
 export default StarredPage;

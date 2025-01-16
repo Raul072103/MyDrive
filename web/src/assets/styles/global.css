@@ -32,6 +32,8 @@ body {
     color: #3b82f6; /* Equivalent to text-blue-500 */
     font-size: 1.5rem;
     margin-right: 0.5rem;
+    width: 30px;
+    height: 32px;
 }
 
 .top-bar .logo-text {
@@ -90,7 +92,7 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem; /* Equivalent to gap-6 */
 }
 
@@ -99,9 +101,64 @@ body {
     padding: 1rem; /* Equivalent to p-4 */
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem;
-    text-align: center;
+    border: 1px solid #ccc;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 210px;
+    height:100px;
+}
+
+.file-item .file-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4b5563; /* text-gray-700 */
+    margin-bottom: 0.5rem;
+    position: absolute;
+    bottom: 5px;
+    left: 16px;
+    overflow: hidden;
+}
+
+.file-item .file-size {
+    position: absolute;
+    bottom: 16px; /* Anchored at the bottom-left corner */
+    right: 10px;
+    font-size: 12px;
+    color: gray;
+}
+
+.download-btn.active {
+    background-color: blue;
+    color: white;
+}
+
+.download-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 5px;
 }
 
 .file-item:hover {
     background-color: #f0f0f0;  /* Optional: Adds a hover effect to indicate interactivity */
+}
+
+.file-item-icon {
+    font-size: 2rem;
+    color: #3b82f6; /* text-blue-500 */
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    top: 10px;
+    left: 4px;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px; /* space between icon and text */
 }

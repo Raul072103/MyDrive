@@ -3,10 +3,10 @@ import {Link} from "react-router-dom";
 
 const Sidebar = () => {
     const menuItems = [
-        { name: "Home", link: "/home" },
-        { name: "My Files", link: "/home/myfiles" },
-        { name: "Starred", link: "/home/starred" },
-        { name: "Trash", link: "/home/trash" },
+        { name: "Home", link: "/home", icon: "/assets/icons/home.svg" },
+        { name: "My Files", link: "/home/myfiles", icon: "/assets/icons/folder.svg" },
+        { name: "Starred", link: "/home/starred", icon: "/assets/icons/star.svg" },
+        { name: "Trash", link: "/home/trash", icon: "/assets/icons/trash.svg" },
     ];
 
     return (
@@ -15,7 +15,8 @@ const Sidebar = () => {
                 {menuItems.map((item, index) => (
                     <li key={index}>
                         <Link to={item.link}>
-                            <i className=""></i> {item.name}
+                            <img src={item.icon} alt={`${item.name} icon`} className="icon"/>
+                            {item.name}
                         </Link>
                     </li>
                 ))}

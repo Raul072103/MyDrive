@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './Login.css';
+import {useNavigate} from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,7 +27,7 @@ function Login() {
             const data = await response.json();
             console.log('Login successful', data);
             // Handle successful login
-
+            navigate('/home/myfiles');
         } catch (error) {
             console.error('Error:', error);
             // Handle error

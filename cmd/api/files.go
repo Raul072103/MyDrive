@@ -2,12 +2,15 @@ package main
 
 import (
 	"MyDrive/internal/utils"
+	"encoding/base64"
 	"errors"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 const maxFileSize = 10 << 20
@@ -28,13 +31,24 @@ const maxFileSize = 10 << 20
 // @Security		ApiKeyAuth
 // @Router			/mydrive/myfiles [get]
 func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Request) {
-	filePathURL := chi.URLParam(r, "path")
-	if filePathURL == "" {
+	relativePath, err := decodeBase64Path(chi.URLParam(r, "path"))
+	if err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+
+	if relativePath == "" {
 		app.badRequestResponse(w, r, errors.New("missing path"))
 		return
 	}
 
-	filePath := app.config.drive.root + filePathURL
+	relativePath, isRelative := strings.CutPrefix(relativePath, "root")
+	if !isRelative {
+		app.badRequestResponse(w, r, errors.New("invalid path"))
+		return
+	}
+
+	filePath := app.config.drive.root + relativePath
 
 	app.logger.Infof("Downloading file at path: %s", filePath)
 
@@ -52,6 +66,13 @@ func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Reque
 		app.internalServerError(w, r, err)
 		return
 	}
+
+	// Check if the file is a directory
+	if fileStats.IsDir() {
+		app.badRequestResponse(w, r, errors.New("file is a directory"))
+		return
+	}
+
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
@@ -88,7 +109,23 @@ func (app *application) downloadFileHandler(w http.ResponseWriter, r *http.Reque
 // @Router			/mydrive/myfiles [post]
 func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the request URL
-	path := r.URL.Query().Get("path")
+	path, err := decodeBase64Path(r.URL.Query().Get("path"))
+	if err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+
+	if path == "" {
+		app.badRequestResponse(w, r, errors.New("missing path"))
+		return
+	}
+
+	path, isRelative := strings.CutPrefix(path, "root")
+	if !isRelative {
+		app.badRequestResponse(w, r, errors.New("invalid path"))
+		return
+	}
+
 	_ = r.URL.Query().Get("name")
 	sizeStr := r.URL.Query().Get("size")
 
@@ -177,18 +214,26 @@ func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request
 // @Security		ApiKeyAuth
 // @Router			/mydrive/myfiles [post]
 func (app *application) listFilesHandler(w http.ResponseWriter, r *http.Request) {
-	relativePath := chi.URLParam(r, "path")
+	relativePath, err := decodeBase64Path(chi.URLParam(r, "path"))
+	if err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
 
 	if relativePath == "" {
 		app.badRequestResponse(w, r, errors.New("missing path"))
 		return
 	}
 
-	if relativePath == "root" {
-		relativePath = ""
+	relativePath, isRelative := strings.CutPrefix(relativePath, "root")
+	if !isRelative {
+		app.badRequestResponse(w, r, errors.New("invalid path"))
+		return
 	}
 
 	filePath := app.config.drive.root + relativePath
+	fmt.Printf("TRIED LISTING AT %s\n", filePath)
+
 	// Get the list of files
 	files, err := app.repo.FilesSystem.ListFiles(filePath)
 	if err != nil {
@@ -201,4 +246,13 @@ func (app *application) listFilesHandler(w http.ResponseWriter, r *http.Request)
 		app.internalServerError(w, r, err)
 		return
 	}
+}
+
+func decodeBase64Path(path string) (string, error) {
+	decodedPath, err := base64.StdEncoding.DecodeString(path)
+	if err != nil {
+		return "", err
+	}
+
+	return string(decodedPath), nil
 }
