@@ -8,12 +8,12 @@ import (
 
 var jwtAuthenticator *JWTAuthenticator
 
-const secret = "TEST_SECRET"
+const Secret = "secret"
 const iss = "TES_ISS"
 const testUserID = 1
 
 var testExp = time.Now().Add(time.Hour * 24).Unix()
-var testClaims = jwt.MapClaims{
+var TestClaims = jwt.MapClaims{
 	"sub": testUserID,
 	"exp": testExp,
 	"iat": time.Now().Unix(),
@@ -23,12 +23,12 @@ var testClaims = jwt.MapClaims{
 }
 
 func init() {
-	jwtAuthenticator = NewJWTAuthenticator(secret, iss, iss)
+	jwtAuthenticator = NewJWTAuthenticator(Secret, iss, iss)
 }
 
 func TestJWTAuthenticator_TokenCreation(t *testing.T) {
 	// Act: Create a token
-	token, err := jwtAuthenticator.GenerateToken(testClaims)
+	token, err := jwtAuthenticator.GenerateToken(TestClaims)
 
 	// Assert: Verify the token creation
 	if err != nil {
@@ -40,7 +40,7 @@ func TestJWTAuthenticator_TokenCreation(t *testing.T) {
 }
 
 func TestJWTAuthenticator_TokenValidation_ValidToken(t *testing.T) {
-	validToken, err := jwtAuthenticator.GenerateToken(testClaims)
+	validToken, err := jwtAuthenticator.GenerateToken(TestClaims)
 	if err != nil {
 		t.Fatalf("failed generating jwt token")
 	}
