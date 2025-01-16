@@ -1,0 +1,20 @@
+.trash-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vh;
+    text-align: center;
+}
+
+.trash-icon {
+    width: 100px;  /* Adjust the size of the trash icon */
+    height: auto;
+}
+
+.trash-message {
+    font-size: 18px;  /* Adjust font size for the message */
+    color: #cfcfcf;  /* Light gray color for the message */
+    margin-top: 20px;  /* Adds space between the icon and the message */
+}

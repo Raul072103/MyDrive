@@ -1,0 +1,37 @@
+.home-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container {
+    display: flex; /* Set this as a horizontal flex container */
+    flex: 1; /* Make the container take up the remaining space */
+    height: calc(100vh - 64px); /* Adjust for the topbar height */
+}
+
+.content-placer {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    padding: 0.5rem;
+    min-width: 150vh; /* Adjust for the sidebar width */
+    height: calc(100vh - 64px); /* Fill remaining screen height minus the top bar */
+    overflow-y: auto; /* Allow scrolling in the main content */
+}
+/* Optional: Prevent overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* Make the page responsive */
+@media (max-width: 1280px) {
+    .home-page {
+        align-items: flex-start; /* Center content */
+    }
+
+    .content-placer {
+        margin-left: 0;
+    }
+}

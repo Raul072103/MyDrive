@@ -99,9 +99,116 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/mydrive/myfiles": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Downloads a file at the specified path.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "myfiles"
+                ],
+                "summary": "Downloads a file at the specified path.",
+                "parameters": [
+                    {
+                        "description": "Metadata about the file to download",
+                        "name": "downloadFileRequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.DownloadFileRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Downloaded file successfully!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "File not found/Internal server error",
+                        "schema": {}
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Uploads a file at the specified path.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "myfiles"
+                ],
+                "summary": "Uploads a file at the specified path.",
+                "parameters": [
+                    {
+                        "description": "Metadata about the file to download",
+                        "name": "uploadFileRequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UploadFileRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uploaded file successfully!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "Internal Server Error",
+                        "schema": {}
+                    },
+                    "413": {
+                        "description": "File too large",
+                        "schema": {}
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "main.DownloadFileRequestBody": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
         "main.SignedInUser": {
             "type": "object",
             "properties": {
@@ -118,6 +225,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.UploadFileRequestBody": {
+            "type": "object",
+            "properties": {
+                "file_size": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 }
             }

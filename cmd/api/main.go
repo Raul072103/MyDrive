@@ -50,6 +50,9 @@ func main() {
 			exp:    time.Hour * 24 * 3,
 			iss:    "mydrive",
 		}},
+		drive: driveConfig{
+			root: env.GetString("FILE_SYSTEM_ROOT_FOLDER", "./testing/root/"),
+		},
 	}
 
 	// Logger
@@ -78,6 +81,7 @@ func main() {
 	}(postgresDB)
 
 	logger.Info("database connection pool established")
+	logger.Infof("drive root folder: %s", cfg.drive.root)
 
 	// Repository
 	repo := repository.NewRepo(postgresDB)
