@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "@styles/global.css";
+import "./FileItem.css";
 
 import {File, getIconSrc, getSizeInDisplayFormat} from "../types/File.tsx";
 import {encodeStrBase64} from "../utils/FileUtils.tsx";

@@ -1,5 +1,4 @@
-import "@styles/global.css";
-import "@styles/TopBar.css";
+import "./Topbar.css";
 import {useLocation} from "react-router-dom";
 import {useState} from "react";
 
