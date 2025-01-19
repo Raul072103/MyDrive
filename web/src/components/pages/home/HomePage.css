@@ -6,9 +6,10 @@
 }
 
 .flex-container {
-    display: flex; /* Set this as a horizontal flex container */
-    flex: 1; /* Make the container take up the remaining space */
-    height: calc(100vh - 64px); /* Adjust for the topbar height */
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    height: calc(100vh - 64px);
 }
 
 .content-placer {
@@ -16,16 +17,15 @@
     flex-direction: row;
     flex-grow: 1;
     padding: 0.5rem;
-    min-width: 150vh; /* Adjust for the sidebar width */
-    height: calc(100vh - 64px); /* Fill remaining screen height minus the top bar */
-    overflow-y: auto; /* Allow scrolling in the main content */
+    min-width: 100vh;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    box-sizing: border-box;
 }
-/* Optional: Prevent overflow */
 body {
     overflow-x: hidden;
 }
 
-/* Make the page responsive */
 @media (max-width: 1280px) {
     .home-page {
         align-items: flex-start; /* Center content */

@@ -18,7 +18,6 @@ const HomePageMainContent = () => {
     )
 }
 
-
 const HomePage = () => {
     const [currentPath, setCurrentPath] = useState<string>("root");
 
@@ -51,7 +50,7 @@ const HomePage = () => {
             <TopBar onUpload={handleFileUpload}/>
                 <div className="flex-container">
                     <Sidebar/>
-                    <div className="content-placer  ">
+                    <div className="content-placer">
                         <Routes>
                             {/* Default route to show FileExplorer */}
                             <Route index element={<HomePageMainContent />} />
