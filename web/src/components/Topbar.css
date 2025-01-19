@@ -1,0 +1,66 @@
+.upload-btn {
+    background-color: #e6e6e6; /* Gray background */
+    color: black; /* Black text */
+    padding: 10px 20px; /* Add padding to make it look like a box */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Show a pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
+    margin-right: 18px;
+}
+
+.upload-btn:hover {
+    background-color: #6c6c6c; /* Darker gray when hovered */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.upload-btn:disabled {
+    background-color: #d3d3d3; /* Light gray when disabled */
+    color: #a0a0a0; /* Lighter text when disabled */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 64px;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-bar .logo-icon {
+    color: #3b82f6; /* Equivalent to text-blue-500 */
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    width: 30px;
+    height: 32px;
+}
+
+.top-bar .logo-text {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.top-bar .actions button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+.top-bar .actions .new-btn {
+    background-color: #3b82f6; /* text-blue-500 */
+    color: white;
+}
+
+.top-bar .actions .upload-btn {
+    background-color: #e5e7eb; /* bg-gray-200 */
+}
